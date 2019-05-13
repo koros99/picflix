@@ -15,3 +15,5 @@ gradle.properties
 gradlew
 gradlew.bat
 settings.gradle
+/.idea
+/gradle/wrapper
