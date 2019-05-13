@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/back" />
+        app:srcCompat="@drawable/back"
+        android:contentDescription="TODO" />
 
     <ImageView
         android:id="@+id/logo"
@@ -17,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        android:contentDescription="TODO" />
 
 
 </RelativeLayout>
