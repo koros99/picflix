@@ -23,7 +23,6 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
 
     public static final String API_KEY = BuildConfig.ApiKey;
-    private static Retrofit retrofit = null;
     private List<UnsplashAPIResponse> photos = new ArrayList<>();
 
     RecyclerViewAdapter adapter;
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<UnsplashAPIResponse>> call, Throwable t) {
-
             }
         });
 
