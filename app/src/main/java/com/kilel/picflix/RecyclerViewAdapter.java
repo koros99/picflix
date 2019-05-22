@@ -59,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void bindPicture(UnsplashAPIResponse picture){
             Picasso.get().load(picture.getUrls().getSmall()).into(mImageView);
             Picasso.get().load(picture.getUser().getProfileImage().getLarge()).into(mProfileImage);
-            mDescription.setText("Photo by " + picture.getUser().getFirstName());
+            mDescription.setText("Photo by " + picture.getUser().getFirstName() + " " + picture.getUser().getLastName());
         }
     }
 }

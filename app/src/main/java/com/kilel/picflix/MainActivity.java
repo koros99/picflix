@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerViewAdapter adapter;
 
-    @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
