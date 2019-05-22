@@ -47,6 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img_id) ImageView mImageView;
+        @BindView(R.id.profile_image) ImageView mProfileImage;
         @BindView(R.id.img_description_id) TextView mDescription;
         private Context context;
 
@@ -57,6 +58,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         public void bindPicture(UnsplashAPIResponse picture){
             Picasso.get().load(picture.getUrls().getSmall()).into(mImageView);
+            Picasso.get().load(picture.getUser().getProfileImage().getLarge()).into(mProfileImage);
+            mDescription.setText("Photo by " + picture.getUser().getFirstName());
         }
     }
 }
