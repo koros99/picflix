@@ -1,6 +1,6 @@
 package com.kilel.picflix.api;
 
-import com.kilel.proto_picflix.model.UnsplashAPIResponse;
+import com.kilel.picflix.model.UnsplashAPIResponse;
 
 import java.util.List;
 
