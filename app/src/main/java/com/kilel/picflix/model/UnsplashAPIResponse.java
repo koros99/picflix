@@ -4,8 +4,11 @@ package com.kilel.picflix.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
+@Parcel
 public class UnsplashAPIResponse {
 
     @SerializedName("id")
@@ -28,10 +31,10 @@ public class UnsplashAPIResponse {
     private String color;
     @SerializedName("description")
     @Expose
-    private Object description;
+    private String description;
     @SerializedName("alt_description")
     @Expose
-    private Object altDescription;
+    private String altDescription;
     @SerializedName("urls")
     @Expose
     private Urls urls;
@@ -40,16 +43,16 @@ public class UnsplashAPIResponse {
     private Links links;
     @SerializedName("categories")
     @Expose
-    private List<Object> categories = null;
+    private transient List<Object> categories = null;
     @SerializedName("sponsored")
     @Expose
     private Boolean sponsored;
     @SerializedName("sponsored_by")
     @Expose
-    private Object sponsoredBy;
+    private transient Object sponsoredBy;
     @SerializedName("sponsored_impressions_id")
     @Expose
-    private Object sponsoredImpressionsId;
+    private String sponsoredImpressionsId;
     @SerializedName("likes")
     @Expose
     private Integer likes;
@@ -58,7 +61,7 @@ public class UnsplashAPIResponse {
     private Boolean likedByUser;
     @SerializedName("current_user_collections")
     @Expose
-    private List<Object> currentUserCollections = null;
+    private transient List<Object> currentUserCollections = null;
     @SerializedName("user")
     @Expose
     private User user;
@@ -91,7 +94,7 @@ public class UnsplashAPIResponse {
      * @param sponsored
      * @param user
      */
-    public UnsplashAPIResponse(String id, String createdAt, String updatedAt, Integer width, Integer height, String color, Object description, Object altDescription, Urls urls, Links links, List<Object> categories, Boolean sponsored, Object sponsoredBy, Object sponsoredImpressionsId, Integer likes, Boolean likedByUser, List<Object> currentUserCollections, User user) {
+    public UnsplashAPIResponse(String id, String createdAt, String updatedAt, Integer width, Integer height, String color, String description, String altDescription, Urls urls, Links links, List<Object> categories, Boolean sponsored, Object sponsoredBy, String sponsoredImpressionsId, Integer likes, Boolean likedByUser, List<Object> currentUserCollections, User user) {
         super();
         this.id = id;
         this.createdAt = createdAt;
@@ -161,11 +164,11 @@ public class UnsplashAPIResponse {
         this.color = color;
     }
 
-    public Object getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -173,7 +176,7 @@ public class UnsplashAPIResponse {
         return altDescription;
     }
 
-    public void setAltDescription(Object altDescription) {
+    public void setAltDescription(String altDescription) {
         this.altDescription = altDescription;
     }
 
@@ -221,7 +224,7 @@ public class UnsplashAPIResponse {
         return sponsoredImpressionsId;
     }
 
-    public void setSponsoredImpressionsId(Object sponsoredImpressionsId) {
+    public void setSponsoredImpressionsId(String sponsoredImpressionsId) {
         this.sponsoredImpressionsId = sponsoredImpressionsId;
     }
 

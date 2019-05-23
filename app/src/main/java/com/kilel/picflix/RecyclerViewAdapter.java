@@ -1,6 +1,7 @@
 package com.kilel.picflix;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.kilel.picflix.model.UnsplashAPIResponse;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mPictures.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder {
+    public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.img_id) ImageView mImageView;
         @BindView(R.id.profile_image) ImageView mProfileImage;
         @BindView(R.id.img_description_id) TextView mDescription;
@@ -55,7 +58,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            int itemPosition = getLayoutPosition();
+            Intent intent = new Intent(mContext, ImageDetail.class);
+            intent.putExtra("position", itemPosition);
+            intent.putExtra("pictures", Parcels.wrap(mPictures));
+            mContext.startActivity(intent);
+        }
+
         public void bindPicture(UnsplashAPIResponse picture){
             Picasso.get().load(picture.getUrls().getSmall()).into(mImageView);
             Picasso.get().load(picture.getUser().getProfileImage().getLarge()).into(mProfileImage);
