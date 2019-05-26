@@ -55,7 +55,7 @@ public class FragmentImageDetail extends Fragment {
         View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
         ButterKnife.bind(this, view);
 
-        Picasso.get().load(mPicture.getUrls().getFull()).into(mFullImageView);
+        Picasso.get().load(mPicture.getUrls().getRegular()).into(mFullImageView);
 
         return view;
     }
