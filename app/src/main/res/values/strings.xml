@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">picflix</string>
     <string name="splashimage">SplashImage</string>
+    <string name="facebook_application_id" translatable="false">2401570126781090</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb2401570126781090</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
