@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "396936990988",
+    "firebase_url": "https://picflix-b78dd.firebaseio.com",
+    "project_id": "picflix-b78dd",
+    "storage_bucket": "picflix-b78dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396936990988:android:d8d4de8b3b16dad3",
+        "android_client_info": {
+          "package_name": "com.kilel.picflix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396936990988-8n9qkgbc3tasmle54dlvvadamv8i0gur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kilel.picflix",
+            "certificate_hash": "1ba7c7fc7dfb734ae94e79576d70fa9d7329bf3a"
+          }
+        },
+        {
+          "client_id": "396936990988-b7lco8nolsbkj73tl8b5ho58sld2tuma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0Zy9bghTXnyArh0fuymwjXsEl1Ggk6PE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396936990988-b7lco8nolsbkj73tl8b5ho58sld2tuma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

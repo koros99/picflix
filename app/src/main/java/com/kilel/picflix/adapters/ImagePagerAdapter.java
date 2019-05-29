@@ -1,13 +1,13 @@
-package com.kilel.picflix;
+package com.kilel.picflix.adapters;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.kilel.picflix.ui.FragmentImageDetail;
 import com.kilel.picflix.model.UnsplashAPIResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ImagePagerAdapter extends FragmentPagerAdapter {

@@ -1,9 +1,10 @@
-package com.kilel.picflix;
+package com.kilel.picflix.ui;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.kilel.picflix.R;
 import com.kilel.picflix.adapters.ImagePagerAdapter;
 import com.kilel.picflix.model.UnsplashAPIResponse;
 

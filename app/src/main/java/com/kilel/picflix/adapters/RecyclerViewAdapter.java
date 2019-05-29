@@ -1,4 +1,4 @@
-package com.kilel.picflix;
+package com.kilel.picflix.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kilel.picflix.ui.ImageDetail;
+import com.kilel.picflix.R;
 import com.kilel.picflix.model.UnsplashAPIResponse;
 import com.squareup.picasso.Picasso;
 
