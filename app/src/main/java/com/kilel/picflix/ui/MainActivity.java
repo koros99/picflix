@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.kilel.picflix.adapters.RecyclerViewAdapter;
 import com.kilel.picflix.api.ApiClient;
 import com.kilel.picflix.api.UnsplashInterface;
 import com.kilel.picflix.model.UnsplashAPIResponse;
@@ -18,7 +19,6 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
