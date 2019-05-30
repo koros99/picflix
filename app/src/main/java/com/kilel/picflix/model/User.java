@@ -245,4 +245,8 @@ public class User {
         this.acceptedTos = acceptedTos;
     }
 
+    public String getUserFullName(){
+        return getFirstName() + " " + getLastName();
+    }
+
 }

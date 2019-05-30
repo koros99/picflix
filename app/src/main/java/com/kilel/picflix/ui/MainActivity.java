@@ -45,7 +45,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String API_KEY = BuildConfig.ApiKey;
-    public static final int LIMIT = 100;
+    public static final int PER_PAGE = 30;
     public static final String PREFERENCES_SEARCH_KEY = "image-search";
     private List<UnsplashAPIResponse> photos = new ArrayList<>();
 
@@ -59,33 +59,12 @@ public class MainActivity extends AppCompatActivity {
     RecyclerViewAdapter adapter;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
-    @BindView(R.id.btn_sign_out) Button btn_sign_out;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        btn_sign_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AuthUI.getInstance()
-                        .signOut(MainActivity.this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                btn_sign_out.setEnabled(false);
-                                showSignInOptions();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
 
         providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -118,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK){
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 Toast.makeText(this, "" + user.getEmail(), Toast.LENGTH_SHORT).show();
-                btn_sign_out.setEnabled(true);
             }
             else {
                 Toast.makeText(this, "" + response.getError().getMessage(), Toast.LENGTH_SHORT).show();
@@ -130,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         ButterKnife.bind(this);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -155,12 +134,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout){
+            logout();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void logout(){
+        FirebaseAuth.getInstance().signOut();
+        showSignInOptions();
     }
 
     public void LoadJson(final String keyword){
@@ -168,10 +157,10 @@ public class MainActivity extends AppCompatActivity {
         Call<List<UnsplashAPIResponse>> call;
 
         if (keyword.length() != 0) {
-            call = apiInterface.getSearchPhotos(API_KEY, LIMIT, keyword);
+            call = apiInterface.getSearchPhotos(API_KEY, PER_PAGE, keyword);
         }
         else {
-            call = apiInterface.getPhotos(API_KEY, LIMIT);
+            call = apiInterface.getPhotos(API_KEY, PER_PAGE);
         }
 
         call.enqueue(new Callback<List<UnsplashAPIResponse>>() {
