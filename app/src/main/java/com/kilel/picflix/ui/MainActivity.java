@@ -144,12 +144,21 @@ public class MainActivity extends AppCompatActivity {
             logout();
             return true;
         }
+        if (id == R.id.action_savedImages){
+            showSaved();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     public void logout(){
         FirebaseAuth.getInstance().signOut();
         showSignInOptions();
+    }
+
+    public void showSaved(){
+        Intent intent = new Intent(MainActivity.this, SavedImageList.class);
+        startActivity(intent);
     }
 
     public void LoadJson(final String keyword){
