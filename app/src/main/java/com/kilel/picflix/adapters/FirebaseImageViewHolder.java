@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,15 +26,12 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     View mView;
     Context mContext;
-
-    @BindView(R.id.img_id) ImageView mImageView;
-    @BindView(R.id.profile_image) ImageView mProfileImage;
-    @BindView(R.id.img_description_id) TextView mDescription;
 
     public FirebaseImageViewHolder(View itemView){
         super(itemView);
@@ -42,6 +41,10 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
     }
 
     public void bindPicture(UnsplashAPIResponse picture){
+        ImageView mImageView = mView.findViewById(R.id.img_id);
+        ImageView mProfileImage = mView.findViewById(R.id.profile_image);
+        TextView mDescription = mView.findViewById(R.id.img_description_id);
+
         Picasso.get().load(picture.getUrls().getSmall()).into(mImageView);
         Picasso.get().load(picture.getUser().getProfileImage().getLarge()).into(mProfileImage);
         mDescription.setText("Photo by " + picture.getUser().getUserFullName());
@@ -50,7 +53,9 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
     @Override
     public void onClick(View v) {
         final ArrayList<UnsplashAPIResponse> photos = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uId = user.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO).child(uId);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -62,7 +67,7 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
 
                 Intent intent = new Intent(mContext, ImageDetail.class);
                 intent.putExtra("position", itemPosition + "");
-                intent.putExtra("photos", Parcels.wrap(photos));
+                intent.putExtra("pictures", Parcels.wrap(photos));
 
                 mContext.startActivity(intent);
             }

@@ -3,7 +3,6 @@ package com.kilel.picflix.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,15 +13,10 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kilel.picflix.BuildConfig;
@@ -76,7 +70,12 @@ public class MainActivity extends AppCompatActivity {
         showSignInOptions();
 
         ButterKnife.bind(this);
-        LoadJson("");
+
+        adapter = new RecyclerViewAdapter(photos, MainActivity.this);
+        mRecyclerView.setAdapter(adapter);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 1);
+        mRecyclerView.setLayoutManager(layoutManager);
+        loadJson("");
     }
 
     private void showSignInOptions(){
@@ -122,14 +121,30 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String s) {
                 if (s.length()>2) {
                     addToSharedPreferences(s);
-                    LoadJson(s);
+//                    loadJson(s);
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                LoadJson(s);
+//                loadJson(s);
+                UnsplashInterface apiInterface = ApiClient.getApiClient().create(UnsplashInterface.class);
+
+                apiInterface.getSearchPhotos(API_KEY, PER_PAGE, s).enqueue(new Callback<List<UnsplashAPIResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<UnsplashAPIResponse>> call, Response<List<UnsplashAPIResponse>> response) {
+                        if (response.isSuccessful() && response.body() != null){
+                            adapter.swapData(response.body());
+                        } else {
+                            Toast.makeText(MainActivity.this, "No Result!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UnsplashAPIResponse>> call, Throwable t) {
+                    }
+                });
                 return false;
             }
         });
@@ -161,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void LoadJson(final String keyword){
+    public void loadJson(final String keyword){
         UnsplashInterface apiInterface = ApiClient.getApiClient().create(UnsplashInterface.class);
         Call<List<UnsplashAPIResponse>> call;
 
@@ -176,18 +191,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<UnsplashAPIResponse>> call, Response<List<UnsplashAPIResponse>> response) {
                 if (response.isSuccessful() && response.body() != null){
-
-                    if(!photos.isEmpty()){
-                        photos.clear();
-                    }
-
-                    photos = response.body();
-
-                    adapter = new RecyclerViewAdapter(photos, MainActivity.this);
-                    mRecyclerView.setAdapter(adapter);
-                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 1);
-                    mRecyclerView.setLayoutManager(layoutManager);
-                    adapter.notifyDataSetChanged();
+                    adapter.swapData(response.body());
                 } else {
                     Toast.makeText(MainActivity.this, "No Result!", Toast.LENGTH_SHORT).show();
                 }

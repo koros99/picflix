@@ -81,9 +81,6 @@ public class FragmentImageDetail extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v == mSaveImageButton){
-//            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//            DatabaseReference myRef = database.getReference(FIREBASE_CHILD_PHOTO);
-//            myRef.setValue(mPicture);
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             String uId = user.getUid();
@@ -92,8 +89,7 @@ public class FragmentImageDetail extends Fragment implements View.OnClickListene
                     .getReference(FIREBASE_CHILD_PHOTO)
                     .child(uId);
             DatabaseReference pushRef = reference.push();
-//            String pushID = pushRef.getKey();
-//            mPicture.setPushId(pushID);
+
             pushRef.setValue(mPicture);
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }

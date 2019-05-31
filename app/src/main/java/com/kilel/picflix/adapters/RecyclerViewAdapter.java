@@ -50,6 +50,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mPictures.size();
     }
 
+    public void swapData(List<UnsplashAPIResponse> pictures) {
+        this.mPictures.clear();
+        this.mPictures.addAll(pictures);
+        notifyDataSetChanged();
+    }
+
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.img_id) ImageView mImageView;
         @BindView(R.id.profile_image) ImageView mProfileImage;

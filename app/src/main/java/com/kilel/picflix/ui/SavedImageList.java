@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kilel.picflix.R;
@@ -30,15 +32,18 @@ public class SavedImageList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved_image_list);
+        setContentView(R.layout.activity_main);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        mImageReference = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO).child(uid);
 
         ButterKnife.bind(this);
-
-        mImageReference = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO);
         setUpFirebaseAdapter();
     }
 
     private void setUpFirebaseAdapter(){
+
         FirebaseRecyclerOptions<UnsplashAPIResponse> options =
                 new FirebaseRecyclerOptions.Builder<UnsplashAPIResponse>()
                         .setQuery(mImageReference, UnsplashAPIResponse.class)
