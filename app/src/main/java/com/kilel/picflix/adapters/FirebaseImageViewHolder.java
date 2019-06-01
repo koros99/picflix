@@ -18,15 +18,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.kilel.picflix.R;
 import com.kilel.picflix.model.UnsplashAPIResponse;
 import com.kilel.picflix.ui.FragmentImageDetail;
-import com.kilel.picflix.ui.ImageDetail;
+import com.kilel.picflix.ui.ImageDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -65,7 +62,7 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
 
                 int itemPosition = getLayoutPosition();
 
-                Intent intent = new Intent(mContext, ImageDetail.class);
+                Intent intent = new Intent(mContext, ImageDetailActivity.class);
                 intent.putExtra("position", itemPosition + "");
                 intent.putExtra("pictures", Parcels.wrap(photos));
 

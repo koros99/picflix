@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kilel.picflix.ui.ImageDetail;
+import com.kilel.picflix.ui.ImageDetailActivity;
 import com.kilel.picflix.R;
 import com.kilel.picflix.model.UnsplashAPIResponse;
 import com.squareup.picasso.Picasso;
@@ -72,7 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View v) {
             int itemPosition = getLayoutPosition();
-            Intent intent = new Intent(mContext, ImageDetail.class);
+            Intent intent = new Intent(mContext, ImageDetailActivity.class);
             intent.putExtra("position", itemPosition);
             intent.putExtra("pictures", Parcels.wrap(mPictures));
             mContext.startActivity(intent);

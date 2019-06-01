@@ -22,7 +22,7 @@ import com.kilel.picflix.model.UnsplashAPIResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SavedImageList extends AppCompatActivity {
+public class SavedImageListActivity extends AppCompatActivity {
 
     private DatabaseReference mImageReference;
     private FirebaseRecyclerAdapter<UnsplashAPIResponse, FirebaseImageViewHolder> mFirebaseAdapter;
@@ -58,7 +58,7 @@ public class SavedImageList extends AppCompatActivity {
             @NonNull
             @Override
             public FirebaseImageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_list, viewGroup, false);
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_list_item_drag, viewGroup, false);
                 return new FirebaseImageViewHolder(view);
             }
         };

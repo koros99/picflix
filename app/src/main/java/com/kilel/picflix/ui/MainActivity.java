@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showSaved(){
-        Intent intent = new Intent(MainActivity.this, SavedImageList.class);
+        Intent intent = new Intent(MainActivity.this, SavedImageListActivity.class);
         startActivity(intent);
     }
 
