@@ -25,7 +25,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseImageViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
     Context mContext;
@@ -37,7 +37,6 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
     }
 
     public void bindPicture(UnsplashAPIResponse picture){
@@ -49,34 +48,4 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
         Picasso.get().load(picture.getUser().getProfileImage().getLarge()).into(mProfileImage);
         mDescription.setText("Photo by " + picture.getUser().getUserFullName());
     }
-
-    @Override
-    public void onClick(View v) {
-        final ArrayList<UnsplashAPIResponse> photos = new ArrayList<>();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uId = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO).child(uId);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    photos.add(snapshot.getValue(UnsplashAPIResponse.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                intent.putExtra("position", itemPosition + "");
-                intent.putExtra("pictures", Parcels.wrap(photos));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
 }

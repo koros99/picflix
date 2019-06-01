@@ -66,6 +66,8 @@ public class UnsplashAPIResponse {
     @Expose
     private User user;
 
+    String index;
+
     /**
      * No args constructor for use in serialization
      * 
@@ -114,6 +116,7 @@ public class UnsplashAPIResponse {
         this.likedByUser = likedByUser;
         this.currentUserCollections = currentUserCollections;
         this.user = user;
+        this.index = "not_specified";
     }
 
     public String getId() {
@@ -260,4 +263,11 @@ public class UnsplashAPIResponse {
         this.user = user;
     }
 
+    public String getIndex(){
+        return index;
+    }
+
+    public void setIndex(String index){
+        this.index = index;
+    }
 }

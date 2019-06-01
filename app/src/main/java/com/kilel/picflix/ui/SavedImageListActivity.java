@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.kilel.picflix.Constants;
 import com.kilel.picflix.R;
 import com.kilel.picflix.adapters.FirebaseImageListAdapter;
 import com.kilel.picflix.adapters.FirebaseImageViewHolder;
@@ -47,14 +49,17 @@ public class SavedImageListActivity extends AppCompatActivity implements OnStart
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        mImageReference = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO).child(uid);
+        Query query = FirebaseDatabase.getInstance()
+                .getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO)
+                .child(uid)
+                .orderByChild(Constants.FIREBASE_QUERY_INDEX);
 
         FirebaseRecyclerOptions<UnsplashAPIResponse> options =
                 new FirebaseRecyclerOptions.Builder<UnsplashAPIResponse>()
-                        .setQuery(mImageReference, UnsplashAPIResponse.class)
+                        .setQuery(query, UnsplashAPIResponse.class)
                         .build();
 
-        mFirebaseAdapter = new FirebaseImageListAdapter(options, mImageReference, this, this);
+        mFirebaseAdapter = new FirebaseImageListAdapter(options, query, this, this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
@@ -77,6 +82,12 @@ public class SavedImageListActivity extends AppCompatActivity implements OnStart
         if(mFirebaseAdapter != null){
             mFirebaseAdapter.stopListening();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mFirebaseAdapter.stopListening();
     }
 
     public void onStartDrag(RecyclerView.ViewHolder viewHolder){
