@@ -30,6 +30,9 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
     View mView;
     Context mContext;
 
+    public ImageView mImageView;
+    public ImageView mProfileImage;
+
     public FirebaseImageViewHolder(View itemView){
         super(itemView);
         mView = itemView;
@@ -38,8 +41,8 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
     }
 
     public void bindPicture(UnsplashAPIResponse picture){
-        ImageView mImageView = mView.findViewById(R.id.img_id);
-        ImageView mProfileImage = mView.findViewById(R.id.profile_image);
+        mImageView = mView.findViewById(R.id.img_id);
+        mProfileImage = mView.findViewById(R.id.profile_image);
         TextView mDescription = mView.findViewById(R.id.img_description_id);
 
         Picasso.get().load(picture.getUrls().getSmall()).into(mImageView);

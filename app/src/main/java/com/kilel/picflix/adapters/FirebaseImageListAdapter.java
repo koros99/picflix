@@ -3,6 +3,7 @@ package com.kilel.picflix.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,24 +29,34 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<UnsplashAP
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull FirebaseImageViewHolder holder, int position, @NonNull UnsplashAPIResponse model) {
+    protected void onBindViewHolder(@NonNull final FirebaseImageViewHolder holder, int position, @NonNull UnsplashAPIResponse model) {
         holder.bindPicture(model);
+        holder.mImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    mOnStartDragListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     @NonNull
     @Override
     public FirebaseImageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_list_item_drag, viewGroup, false);
-        return new FirebaseImageViewHolder(view)
+        return new FirebaseImageViewHolder(view);
     }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        notifyItemMoved(fromPosition, toPosition);
         return false;
     }
 
     @Override
     public void onItemDismiss(int position) {
-
+        getRef(position).removeValue();
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kilel.picflix.R;
+import com.kilel.picflix.adapters.FirebaseImageListAdapter;
 import com.kilel.picflix.adapters.FirebaseImageViewHolder;
 import com.kilel.picflix.model.UnsplashAPIResponse;
+import com.kilel.picflix.util.OnStartDragListener;
+import com.kilel.picflix.util.SimpleItemTouchHelperCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SavedImageListActivity extends AppCompatActivity {
+public class SavedImageListActivity extends AppCompatActivity implements OnStartDragListener{
 
     private DatabaseReference mImageReference;
-    private FirebaseRecyclerAdapter<UnsplashAPIResponse, FirebaseImageViewHolder> mFirebaseAdapter;
+    private FirebaseImageListAdapter mFirebaseAdapter;
+    private ItemTouchHelper mItemTouchHelper;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
@@ -34,36 +39,30 @@ public class SavedImageListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        mImageReference = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO).child(uid);
-
         ButterKnife.bind(this);
         setUpFirebaseAdapter();
     }
 
     private void setUpFirebaseAdapter(){
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        mImageReference = FirebaseDatabase.getInstance().getReference(FragmentImageDetail.FIREBASE_CHILD_PHOTO).child(uid);
+
         FirebaseRecyclerOptions<UnsplashAPIResponse> options =
                 new FirebaseRecyclerOptions.Builder<UnsplashAPIResponse>()
                         .setQuery(mImageReference, UnsplashAPIResponse.class)
                         .build();
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<UnsplashAPIResponse, FirebaseImageViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull FirebaseImageViewHolder holder, int position, @NonNull UnsplashAPIResponse photo) {
-                holder.bindPicture(photo);
-            }
+        mFirebaseAdapter = new FirebaseImageListAdapter(options, mImageReference, this, this);
 
-            @NonNull
-            @Override
-            public FirebaseImageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_list_item_drag, viewGroup, false);
-                return new FirebaseImageViewHolder(view);
-            }
-        };
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
+        mRecyclerView.setHasFixedSize(true);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -80,4 +79,7 @@ public class SavedImageListActivity extends AppCompatActivity {
         }
     }
 
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 }
