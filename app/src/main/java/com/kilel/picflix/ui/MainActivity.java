@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kilel.picflix.BuildConfig;
 import com.kilel.picflix.R;
-import com.kilel.picflix.adapters.RecyclerViewAdapter;
+import com.kilel.picflix.adapters.ImageListAdapter;
 import com.kilel.picflix.api.ApiClient;
 import com.kilel.picflix.api.UnsplashInterface;
 import com.kilel.picflix.model.UnsplashAPIResponse;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     List<AuthUI.IdpConfig> providers;
     private static final int MY_REQUEST_CODE = 3002;
 
-    RecyclerViewAdapter adapter;
+    ImageListAdapter adapter;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        adapter = new RecyclerViewAdapter(photos, MainActivity.this);
+        adapter = new ImageListAdapter(photos, MainActivity.this);
         mRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 1);
         mRecyclerView.setLayoutManager(layoutManager);

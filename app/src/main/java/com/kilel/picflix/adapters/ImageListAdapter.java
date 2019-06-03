@@ -23,12 +23,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ImageViewHolder> {
+public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
 
     private List<UnsplashAPIResponse> mPictures = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(List<UnsplashAPIResponse> pictures, Context context) {
+    public ImageListAdapter(List<UnsplashAPIResponse> pictures, Context context) {
         this.mPictures = pictures;
         this.mContext = context;
     }
